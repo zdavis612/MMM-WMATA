@@ -8,7 +8,7 @@ Module.register("MMM-WMATA", {
         trainStations: [],
         trainUpdateInterval: 60,
 
-        showTrainIncidents: true,
+        showTrainIncidents: false,
         trainIncidentUpdateInterval: 300,
 
         busStops: [],
@@ -17,22 +17,26 @@ Module.register("MMM-WMATA", {
         busStopFilterFn: (_datetime, _stationCode) => true,
         busRouteIncidentFilterFn: (_incidentType, _route) => true,
 
-        showBusIncidents: true,
+        showBusIncidents: false,
         busIncidentUpdateInterval: 300,
 
         busIncidentRoutes: null,
 
         trainFilterFn: (train) => true,
-
-        hideEmptyTrains: true,
-        hideEmptyBuses: true,
     },
 
     /**
      * Core method, called when all modules are loaded and the system is ready to boot up.
      */
     start() {
-        this.apiKey = null;
+
+    console.log("MMM-WMATA start() called"); //added this logger due to AI
+    console.log("this:", this);
+    console.log("this.name:", this.name);
+    console.log("this.identifier:", this.identifier);
+    console.log("this.config:", this.config);
+
+	    this.apiKey = this.config.apiKey;
         this.initialized = false;
 
         this.trainUpdateInterval = 0;
@@ -62,11 +66,17 @@ Module.register("MMM-WMATA", {
 
         Log.info("WMATA Starting");
 
+ //added by ai
+
+// Send init immediately
+    setTimeout(() => {
+        Log.info(`Sending WMATA_INIT with identifier: ${this.identifier}`);
         this.sendSocketNotification("WMATA_INIT", {
-            identifier: this.identifier,
-            apiKey: this.config.wmataApiKey,
+            identifier: this.identifier || "MMM-WMATA-default",
+            apiKey: this.config.apiKey,
             trainStations: this.config.trainStations,
         });
+    }, 100);
     },
 
     socketNotificationReceived(notification, payload) {
@@ -144,7 +154,6 @@ Module.register("MMM-WMATA", {
         return {
             loading: false,
             trains: this.formattedTrainData,
-            hasActiveTrainStations: this.formattedTrainData && this.formattedTrainData.length > 0,
             trainsLastUpdated: this.trainTimesLastUpdatedFormatted,
 
             buses: this.formattedBusData,
@@ -155,9 +164,6 @@ Module.register("MMM-WMATA", {
             trainAlerts: this.trainAlerts,
 
             hasActiveBusStops: this.activeBusStops.length > 0,
-
-            hideEmptyTrains: this.config.hideEmptyTrains,
-            hideEmptyBuses: this.config.hideEmptyBuses,
 
             busDelays: this.busDelays,
             busAlerts: this.busAlerts,
