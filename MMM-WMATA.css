@@ -1,5 +1,17 @@
 .MMM-WMATA .module-content {
   width: 100%;
+  font-size: 0.9em;
+}
+
+.MMM-WMATA h2, .MMM-WMATA h3 {
+  margin: 2px;
+  padding: 5px;
+}
+
+.MMM-WMATA .transit-mode-header {
+  margin: 12px 0 0 0;
+  padding: 0;
+  line-height: 1;
 }
 
 .MMM-WMATA .train-station {
@@ -7,6 +19,8 @@
   flex-flow: column nowrap;
   place-content: normal;
   width: 100%;
+  margin: 0 0 0 0;
+  padding: 0;
 }
 
 .MMM-WMATA .bus-stop {
@@ -14,6 +28,8 @@
   flex-flow: column nowrap;
   place-content: normal;
   width: 100%;
+  margin: 0 0 0 0;
+  padding: 0;
 }
 
 .MMM-WMATA .train-station__prediction {
@@ -21,7 +37,9 @@
     grid-template-areas: "train-line-color train-destination train-minutes-away";
     grid-template-columns: 10% 75% 15%;
     gap: 0 5px;
-    padding: 0 5px;
+    padding: 0 2px;
+    margin: 0;
+    font-size: 0.9em;
 }
 
 .MMM-WMATA .bus-stop__prediction {
@@ -29,7 +47,9 @@
     grid-template-areas: "bus-stop__route bus-stop__direction bus-stop__minutes-away";
     grid-template-columns: 10% 75% 15%;
     gap: 0 5px;
-    padding: 0 5px;
+    padding: 0 2px;
+    margin: 0;
+    font-size: 0.9em;
 }
 
 .MMM-WMATA .train-station__prediction .train-destination {
